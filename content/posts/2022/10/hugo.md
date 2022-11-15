@@ -8,6 +8,7 @@ draft: false
 https://engineering.visional.inc/blog/_49/process-to-build-tech-blog/
 
 これぞ自分が求めていたもの！ということで家に帰ってから早速試してみました。
+<!--more-->
 
 とりあえず公式の[QuickStart](https://gohugo.io/getting-started/quick-start/)から始めていきます
 
