@@ -6,7 +6,7 @@ themesDir = "./themes"
 
 copyright = ""
 paginate = 5
-languageCode = "en"
+languageCode = "ja"
 defaultContentLanguage = "en"
 
 hasCJKLanguage = true
@@ -18,6 +18,8 @@ ignoreErrors = ["error-remote-getjson"]
 
 disqusShortname = ""
 googleAnalytics = ""
+
+enableRobotsTXT = true
 
 [outputs]
 home = ["HTML", "JSON", "RSS"]
