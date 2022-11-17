@@ -5,7 +5,7 @@ theme = "puppet"
 themesDir = "./themes"
 
 copyright = ""
-paginate = 3
+paginate = 5
 languageCode = "en"
 defaultContentLanguage = "en"
 
