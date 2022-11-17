@@ -65,10 +65,10 @@ custom_css = [] # ["css/custom.css"]  Add your file to assets folder  [assets/cs
 # See https://giscus.app/
 [params.giscus]
 enable = true
-repo = "roninro/hugo-theme-puppet"
-repo_id = "R_kgDOHuvyhw"
+repo = "naoki-urabe/my-blog"
+repo_id = "R_kgDOIQh7yQ"
 category = "General"
-category_id = "DIC_kwDOHuvyh84CQjDo"
+category_id = "DIC_kwDOIQh7yc4CSnM4"
 input_position = "top"
 theme = "light_tritanopia"
-lang = "en"
+lang = "ja"
