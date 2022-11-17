@@ -2,12 +2,13 @@
 title: "Netlifyの独自ドメイン設定"
 date: 2022-10-22T16:20:03+09:00
 draft: false
+toc: true
 ---
 今回は前回作成したhugoをnetlifyにデプロイしたいと思います。
 手順は前回と同じく[hugo公式の手順](https://gohugo.io/hosting-and-deployment/hosting-on-netlify/)を参考にします。
 デプロイ手順に関しては公式の手順に沿って行えば難なくできると思うので、独自ドメインの設定方法を紹介します。
 <!--more-->
-{{< toc >}}
+ 
 利用するドメインは購入済みのものとします。
 
 私はドメインをおなまえ.comで取得したのでそれに沿ったやり方を紹介します。

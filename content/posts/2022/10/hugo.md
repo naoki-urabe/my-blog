@@ -2,6 +2,7 @@
 title: "Hugoで作るブログ"
 date: 2022-10-19T21:40:39+09:00
 draft: false
+toc: true
 ---
 
 ブログ記事をgit管理して作成から公開まで完結したいな～と思っていたところ、こんな記事を見つけました。
@@ -9,7 +10,7 @@ https://engineering.visional.inc/blog/_49/process-to-build-tech-blog/
 
 これぞ自分が求めていたもの！ということで家に帰ってから早速試してみました。
 <!--more-->
-{{< toc >}}
+ 
 とりあえず公式の[QuickStart](https://gohugo.io/getting-started/quick-start/)から始めていきます
 
 # hugo cliをinstallする
