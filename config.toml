@@ -47,6 +47,11 @@ unsafe = true
 identifier = "home"
 name = "Home"
 url = "/"
+weight = -200
+[[menu.main]]
+identifier = "speaker-deck"
+name = "Speaker Deck"
+url = "https://speakerdeck.com/naokiurabe"
 weight = -100
 [[menu.main]]
 identifier = "github"
