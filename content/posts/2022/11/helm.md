@@ -12,6 +12,8 @@ toc: true
 # Helmとは
 Helmとはkubernetesのpackage managerのことを言います。Ubuntuでいうapt,CentOSでいうyumですね。HelmはChartsと呼ばれる、関連するKubernetesリソース群単位を管理します。
 # QuickStartをやってみる
+[公式DocのQuickStart](https://helm.sh/docs/intro/quickstart/)に従って動作を確認しました。
+
 以下のコマンドを実行することにより、Helmにリポジトリを登録します。リポジトリを登録することにより、そのリポジトリに登録してあるChartsを参照できるようになります。
 ```
 helm repo add bitnami https://charts.bitnami.com/bitnami
