@@ -58,7 +58,11 @@ identifier = "github"
 name = "Github"
 url = "https://github.com/naoki-urabe/"
 weight = 100
-
+[[menu.main]]
+identifier = "lapras"
+name = "Lapras"
+url = "https://lapras.com/public/BGVMM6N"
+weight = 200
 
 [params]
 img_home = "img/home-bg.jpg"
