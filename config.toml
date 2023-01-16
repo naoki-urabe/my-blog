@@ -1,6 +1,6 @@
 baseURL = "https://nao-eng.com/"
 title = "地道に続けるブログ"
-subtitle = "個人的なメモ"
+description = "勉強メモを毎日更新"
 theme = "puppet"
 themesDir = "./themes"
 
