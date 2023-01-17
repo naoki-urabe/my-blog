@@ -1,5 +1,5 @@
 ---
-title: "Blogのクオリティについて"
+title: "ブログのクオリティについて"
 date: 2023-01-17T23:27:57+09:00
 draft: false
 tags:
