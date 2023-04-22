@@ -4,6 +4,8 @@ date: 2023-04-19T22:10:36+09:00
 draft: false
 tags:
   - Terraform
+  - AWS
+  - ネットワーク
 toc: true
 ---
 AWS Solution Architect Associateの試験を受けようと思いたち、AWS勉強を進めています。
