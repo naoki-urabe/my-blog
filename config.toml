@@ -63,6 +63,11 @@ identifier = "lapras"
 name = "Lapras"
 url = "https://lapras.com/public/BGVMM6N"
 weight = 200
+[[menu.main]]
+identifier = "scrapbox"
+name = "Scrapbox"
+url = "https://scrapbox.io/naoeng-study-memo"
+weight = 300
 
 [params]
 img_home = "img/home-bg.jpg"
