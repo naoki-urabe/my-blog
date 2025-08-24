@@ -8,9 +8,12 @@ Resources:
     Properties:
       BucketName: !Sub "${AWS::AccountId}-my-blog-bucket"
       AccessControl: Private
-      # WebsiteConfiguration:
-      #   IndexDocument: index.html
-      #   ErrorDocument: index.html
+
+  HugoCloudFrontOAI:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: "OAI for my-blog"
 
   HugoS3BucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -21,15 +24,11 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS: !Sub "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${HugoCloudFrontOAI}"
+              CanonicalUser: !GetAtt HugoCloudFrontOAI.S3CanonicalUserId
             Action: "s3:GetObject"
             Resource: !Sub "${HugoS3Bucket.Arn}/*"
-
-  HugoCloudFrontOAI:
-    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
-    Properties:
-      CloudFrontOriginAccessIdentityConfig:
-        Comment: "OAI for my-blog"
+    DependsOn:
+      - HugoCloudFrontOAI
 
   HugoCloudFrontDistribution:
     Type: AWS::CloudFront::Distribution

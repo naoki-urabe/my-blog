@@ -28,7 +28,9 @@ jobs:
           hugo-version: '0.115.0'
 
       - name: Build Hugo
-        run: hugo --minify
+        run: |
+          hugo --cleanDestinationDir
+          hugo --minify
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v2
