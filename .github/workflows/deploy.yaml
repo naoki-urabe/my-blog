@@ -1,0 +1,78 @@
+name: Hugo Deploy
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  AWS_REGION: ap-northeast-1
+  S3_BUCKET: ${{ vars.S3_BUCKET }}
+  CLOUDFRONT_DIST_ID: ${{ vars.CLOUDFRONT_DIST_ID }}
+
+jobs:
+  production:
+    name: Deploy to Production
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.115.0'
+
+      - name: Build Hugo
+        run: hugo --minify
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy to S3 (Production)
+        run: |
+          aws s3 sync public/ s3://$S3_BUCKET/ --delete
+          aws cloudfront create-invalidation \
+            --distribution-id $CLOUDFRONT_DIST_ID \
+            --paths "/*"
+
+  preview:
+    name: Deploy PR Preview
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.115.0'
+
+      - name: Build Hugo
+        run: hugo --minify
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy to S3 (Preview)
+        run: |
+          PR_PREFIX="pr-${{ github.event.pull_request.number }}"
+          aws s3 sync public/ s3://$S3_BUCKET/$PR_PREFIX/ --delete
+          echo "Preview URL: https://your-cloudfront-domain/$PR_PREFIX/"
+
+      - name: Comment Preview URL
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            🚀 プレビュー環境がデプロイされました  
+            URL: https://your-cloudfront-domain/pr-${{ github.event.pull_request.number }}/
