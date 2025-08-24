@@ -29,8 +29,7 @@ jobs:
 
       - name: Build Hugo
         run: |
-          hugo --cleanDestinationDir
-          hugo --minify
+          hugo --minify --cleanDestinationDir
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v2
