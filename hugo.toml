@@ -1,0 +1,30 @@
+baseURL = "https://nao-eng.com/"
+title = "地道に続けるブログ"
+theme = "hugo-theme-cleanwhite"
+languageCode = "ja"
+preserveTaxonomyNames = true
+hasCJKLanguage = true
+
+[pagination]
+  pagerSize = 5 # frontpage pagination
+
+[outputs]
+home = ["HTML", "RSS"]
+
+[params]
+  header_image = "img/home-bg-jeep.jpg"
+  description = "勉強メモを毎日更新"
+  image_404 = "img/404-bg.jpg"
+  featured_tags = true 
+  featured_condition_size = 1 
+
+[markup]
+  [markup.tableOfContents]
+    endLevel = 2
+    startLevel = 1
+  [markup.highlight]
+    style = "dracula"
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+

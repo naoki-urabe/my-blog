@@ -4,6 +4,7 @@ date: 2024-03-07T19:56:10+09:00
 draft: false
 tags:
   - Kubernetes
+  - メモ
 toc: true
 ---
 cert-managerとingressがどのような関係なのかあやふやなので書いておきます。
