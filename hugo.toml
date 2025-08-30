@@ -4,6 +4,7 @@ theme = "hugo-theme-cleanwhite"
 languageCode = "ja"
 preserveTaxonomyNames = true
 hasCJKLanguage = true
+canonifyURLs = true
 
 [pagination]
   pagerSize = 5 # frontpage pagination
