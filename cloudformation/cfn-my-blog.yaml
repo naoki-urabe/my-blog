@@ -1,8 +1,13 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: my-blog S3 + CloudFront
 
-Resources:
+Parameters:
+  BlogCertificateArn:
+    Type: String
+  Domain:
+    Type: String
 
+Resources:
   HugoS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -30,6 +35,8 @@ Resources:
     DependsOn:
       - HugoCloudFrontOAI
 
+
+  
   HugoCloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -55,5 +62,18 @@ Resources:
               Forward: none
         DefaultRootObject: index.html
         ViewerCertificate:
-          CloudFrontDefaultCertificate: true
+          AcmCertificateArn: !Ref BlogCertificateArn
+          SslSupportMethod: sni-only
+        Aliases:
+        - !Ref Domain
         PriceClass: PriceClass_100
+
+  BlogRecordSet:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: !Sub "{{resolve:ssm:/route53/blog-hosted-zone-id}}"
+      Name: !Ref Domain
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt HugoCloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2  

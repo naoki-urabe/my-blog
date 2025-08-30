@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: my-blog S3 + CloudFront
+Parameters:
+  BlogHostedZoneId:
+    Type: String
+  Domain:
+    Type: String
+
+Resources:
+  BlogCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref Domain
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Ref Domain
+          HostedZoneId: !Ref BlogHostedZoneId

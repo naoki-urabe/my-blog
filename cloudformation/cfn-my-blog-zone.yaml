@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: my-blog zone
+
+Parameters:
+  Domain:
+    Type: String
+
+Resources:
+  BlogHostedZone:
+    Type: AWS::Route53::HostedZone
+    DeletionPolicy: Delete
+    Properties:
+      Name: !Ref Domain
+  
+  SSMBlogHostedZoneId:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: /route53/blog-hosted-zone-id
+      Description: my blog zone id
+      Type: String
+      Value: !Ref BlogHostedZone
+      Tags: 
+        Name: /route53/blog-hosted-zone-id
