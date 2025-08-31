@@ -1,25 +1,37 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: my-blog S3 + CloudFront
+Description: my-blog S3 + CloudFront (OAI 付き)
 
 Parameters:
   BlogCertificateArn:
     Type: String
+    Description: ACM 証明書 ARN（us-east-1）
   Domain:
     Type: String
+    Description: ブログの独自ドメイン名
 
 Resources:
+  # S3 バケット（Private、静的ウェブサイトホスティングは無効）
   HugoS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub "${AWS::AccountId}-my-blog-bucket"
-      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
 
-  HugoCloudFrontOAI:
-    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+  # CloudFront OAI（S3 への安全アクセス用）
+  HugoCloudFrontOAC:
+    Type: AWS::CloudFront::OriginAccessControl
     Properties:
-      CloudFrontOriginAccessIdentityConfig:
-        Comment: "OAI for my-blog"
+      OriginAccessControlConfig:
+        Name: myblog-oac
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
 
+  # S3 バケットポリシー（OAI からのみアクセス許可）
   HugoS3BucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
@@ -29,14 +41,20 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              CanonicalUser: !GetAtt HugoCloudFrontOAI.S3CanonicalUserId
-            Action: "s3:GetObject"
-            Resource: !Sub "${HugoS3Bucket.Arn}/*"
+              Service: cloudfront.amazonaws.com
+            Action: 
+              - s3:GetObject
+              - s3:ListBucket
+            Resource: 
+              - !Sub "${HugoS3Bucket.Arn}/*"
+              - !Sub "${HugoS3Bucket.Arn}"
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${HugoCloudFrontDistribution}
     DependsOn:
-      - HugoCloudFrontOAI
+      - HugoCloudFrontOAC
 
-
-  
+  # CloudFront ディストリビューション
   HugoCloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -46,11 +64,12 @@ Resources:
           - Id: HugoS3Origin
             DomainName: !GetAtt HugoS3Bucket.DomainName
             S3OriginConfig:
-              OriginAccessIdentity: !Join ["", ["origin-access-identity/cloudfront/", !Ref HugoCloudFrontOAI]]
+              OriginAccessIdentity: ''
+            OriginAccessControlId: !GetAtt HugoCloudFrontOAC.Id
         DefaultCacheBehavior:
           TargetOriginId: HugoS3Origin
           ViewerProtocolPolicy: redirect-to-https
-          AllowedMethods: 
+          AllowedMethods:
             - GET
             - HEAD
           CachedMethods:
@@ -60,14 +79,44 @@ Resources:
             QueryString: false
             Cookies:
               Forward: none
+          FunctionAssociations:
+            - EventType: viewer-request
+              FunctionARN: !Ref CloudFrontFunction
+
         DefaultRootObject: index.html
         ViewerCertificate:
           AcmCertificateArn: !Ref BlogCertificateArn
           SslSupportMethod: sni-only
         Aliases:
-        - !Ref Domain
+          - !Ref Domain
         PriceClass: PriceClass_100
+    
+  CloudFrontFunction:
+    Type: AWS::CloudFront::Function
+    Properties:
+      Name: add-index-function
+      FunctionConfig:
+        Comment: add index CloudFront function
+        Runtime: cloudfront-js-2.0
+      FunctionCode: |
+        function handler(event) {
+            var request = event.request;
+            var uri = request.uri;
 
+            // Check whether the URI is missing a file name.
+            if (uri.endsWith('/')) {
+                request.uri += 'index.html';
+            }
+            // Check whether the URI is missing a file extension.
+            else if (!uri.includes('.')) {
+                request.uri += '/index.html';
+            }
+
+            return request;
+        }
+      AutoPublish: true
+
+  # Route53 A レコード（CloudFront エイリアス）
   BlogRecordSet:
     Type: AWS::Route53::RecordSet
     Properties:
@@ -76,4 +125,4 @@ Resources:
       Type: A
       AliasTarget:
         DNSName: !GetAtt HugoCloudFrontDistribution.DomainName
-        HostedZoneId: Z2FDTNDATAQYW2  
+        HostedZoneId: Z2FDTNDATAQYW2
