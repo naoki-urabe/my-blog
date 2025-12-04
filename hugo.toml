@@ -1,6 +1,6 @@
 baseURL = "https://nao-eng.com/"
 title = "地道に続けるブログ"
-theme = "hugo-theme-cleanwhite"
+theme = "PaperMod"
 languageCode = "ja"
 preserveTaxonomyNames = true
 hasCJKLanguage = true
