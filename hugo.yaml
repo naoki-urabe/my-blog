@@ -1,12 +1,14 @@
 baseURL: "https://nao-eng.com/"
 title: "地道に続けるブログ"
-paginate: 5
 theme: PaperMod
 
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
+
+pagination:
+  pagerSize: 5
 
 minify:
   disableXML: true
@@ -48,7 +50,8 @@ params:
     favicon32x32: "<link / abs url>"
     apple_touch_icon: "<link / abs url>"
     safari_pinned_tab: "<link / abs url>"
-
+g on  master on ☁️
+✦ ❯
   label:
     text: "Home"
     icon: /apple-touch-icon.png
