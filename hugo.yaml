@@ -50,8 +50,7 @@ params:
     favicon32x32: "<link / abs url>"
     apple_touch_icon: "<link / abs url>"
     safari_pinned_tab: "<link / abs url>"
-g on  master on ☁️
-✦ ❯
+
   label:
     text: "Home"
     icon: /apple-touch-icon.png
