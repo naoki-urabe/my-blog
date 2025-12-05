@@ -15,8 +15,8 @@ ingressリソースのmetadata.annotationsに
 ```cert-manager.io/cluster-issuer: <clusterissuerリソースの名前>```  
 と設定することでclusterissuerで指定したメールアドレスで署名を行ったTLS証明書の発行を行うことができます。
 
-# 感想
+## 感想
 まだ証明書発行についてザックリとしかわかってないので引き続き勉強します
 
-# 参考
+## 参考
 - https://cert-manager.io/docs/usage/ingress/
